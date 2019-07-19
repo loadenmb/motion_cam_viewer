@@ -1,0 +1,34 @@
+{
+		"name": "motion_cam_viewer",
+		"version": "",
+		"description": "motion cam viewer",
+		"author": "Loaden",
+		"contributors": [
+				{
+						"name": "Loaden",
+						"email": ""
+				}
+		],
+		"main": "app.js",
+		"keywords": [
+				"security cam viewer",
+				"camera trap",
+				"motion"
+		],
+		"dependencies": {
+				"express": "*",
+				"express-session": "*",
+				"ejs": "*",
+				"http-proxy": "*",
+				"ddos": "*",
+				"jszip": "*"
+		},
+		"devDependencies": {
+				"express": "*",
+				"express-session": "*",
+				"ejs": "*",
+				"http-proxy": "*",
+				"ddos": "*",
+				"jszip": "*"
+		}
+}

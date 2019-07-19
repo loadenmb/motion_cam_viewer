@@ -1,0 +1,23 @@
+{
+    "password": "password+secret_sha512",
+    "port": 8024,
+    "networkInterface": "192.168.1.240",
+    "ssl_privateKeyPath": "",
+    "ssl_certificatePath": "",
+    "motion_imagePath": "/home/motion/out/",
+    "motion_videoStreamUri": "http://localhost:4081/",
+    "motion_videoStreamAuth": "",
+    "motion_controlUri": "http://localhost:4847",
+    "motion_controlUriAuth": "",
+    "pagination_maxImagesPage": 32,
+    "secret": "1343d6e1c7dc629dc77e8e3e10679f70",
+    "log_enabled": true,
+    "log2File_enabled": true,
+    "logFile": "/var/log/motion_cam_viewer.log",
+    "bruteForce_maxTrials": 4,
+    "bruteForce_period": 60,
+    "bruteForce_banTime": 60,
+    "ddos_enabled": true,
+    "ddos_maxexpiry": 120,
+    "publicWWW_relative": "public/"
+}

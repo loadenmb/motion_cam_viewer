@@ -1,0 +1,12 @@
+[Unit]
+Description=motion cam viewer
+After=motion.service
+
+[Service]
+ExecStart=##path## ##argument##
+Restart=always
+RestartSec=10
+User=motioncamviewer
+
+[Install]
+WantedBy=multi-user.target

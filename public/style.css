@@ -1,0 +1,185 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+    font-family: sans-serif,verdana;
+} 
+
+html, body {
+    height: 100%;
+}
+
+body {
+   font-size: 136%; 
+}
+
+img {
+    border: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+ul {
+    list-style-type: none;    
+}
+
+button, select, input[type=checkbox] {
+    border: 0;
+    cursor: pointer;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+button, select, .checkbox, .control {
+    display: block;
+    padding-left: 3%;
+    padding-right: 3%;
+    height: 65px;
+    padding-top: 45px;
+    font-size: 100%;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    background: rgb(122,188,255); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(122,188,255,1) 1%, rgba(96,171,248,1) 44%, rgba(64,150,238,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(122,188,255,1) 1%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(122,188,255,1) 1%,rgba(96,171,248,1) 44%,rgba(64,150,238,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7abcff', endColorstr='#4096ee',GradientType=0 ); /* IE6-9 */
+}
+
+select, button {
+    width: 100%;
+    height: 110px;
+    padding-top: 0px;
+}
+
+.pagination {
+    text-align: right;
+    margin-top: 1%;
+}
+
+.pagination a.control, .pagination span.control {
+    width: inherit;
+    display: inline-block;
+}
+
+.currentPage {
+    color: #000;
+}
+
+.checkbox label {
+    position: relative;
+    top: -2px;
+}
+
+.controls {
+    column-count: 3;
+    margin-top: 1%;
+}
+
+.foot {
+    margin-bottom: 1%;
+}
+
+.logout {
+    margin-top: 1%;
+}
+
+#toggle {
+    padding-left: 40px;
+}
+
+.camError, .camDisabled, .camEnabled {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    display: block;
+    background-color: #ccc;
+    margin-left: -30px;
+}
+
+.camEnabled {
+    background-color: #42f575;    
+}
+
+.camDisabled {
+    background-color: #f54b42;   
+}
+
+#wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 99%;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+}
+
+#images {
+    margin-top: 1%;
+}
+
+#images li img {
+    width: 100%;
+}
+
+#images li {
+    position: relative;
+    float: left;
+    width: 49.75%;
+    margin-right: 0.5%;
+}
+
+#images li:nth-child(2n) {
+    margin-right: 0;
+}
+
+#images li input {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
+#images li span {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #fff;
+    background-color: #000;
+    opacity: 0.6;
+    padding: 2%;
+}
+
+.clearL {
+    clear: left;
+    height: 1px;
+    line-height: 1px;
+    float: none !important;
+}
+
+#login {
+    padding-top: 15%;
+    width: 100%;
+    text-align: center;
+}
+
+#login input {
+    width: 25%;
+}
+
+#loginBtn {
+    margin: 1% auto 0 auto;
+    width: 26%;
+}

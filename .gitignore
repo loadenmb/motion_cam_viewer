@@ -1,0 +1,13 @@
+ 
+# dolphin
+**/.directory
+
+# node.js
+node_modules
+package-lock.json
+
+# dev setup
+camviewer.log
+config_dev.json
+imgTMP
+PRIVATE_NOTES.txt

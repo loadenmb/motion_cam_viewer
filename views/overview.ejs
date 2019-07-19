@@ -1,0 +1,62 @@
+<%- include('header') %>
+    <form action="/execute/" method="post">
+        <% if (messages.length) { %>
+            <ul id="messages">
+                <% messages.forEach(function(message) {  %>
+                    <li><%= message %></li>
+                <% }) %>
+            </ul>
+        <% } %>
+        
+        <a href="/logout/" class="logout control">Logout</a>
+        <div class="controls">
+            <a href="/toggle/" id="toggle" class="control"><% if (motion_state == true) { %><span class="camEnabled">&nbsp;</span>Disable detection<% } else if (motion_state === false) { %><span class="camDisabled">&nbsp;</span>Enable detection<% } else if (motion_state == null) { %><span class="camError">&nbsp;</span>Cam unreachable<%}%></a>
+            <a href="#" id="downloadAll" class="control">Download all (<%= pagination.max %>)</a> <!-- /download/ -->
+            <a href="#" id="deleteAll" class="control">Delete all</a> <!-- /clear/ -->
+        </div>
+        <div class="controls">
+            <span class="checkbox"><input id="selectAll" type="checkbox" /> <label for="select">Select all</label></span>
+            <select name="action" size="1">    
+                <option value="">Action &#9660</option>
+                <option value="delete">Delete &#9668;</option>
+                <option value="download">Download &#9668;</option>
+            </select>
+            <button type="submit">Execute</button>
+        </div>
+        <% if (images.length > 0 || streamUri.length > 0) { %>
+            <ul id="images">
+                <% if (streamUri.length > 0) { %>
+                    <li><img id="stream" src="/stream/" /></li>
+                <% } %>
+                <% images.forEach(function(image) {  %>
+                    <li>			   		
+                        <a href="/<%= image %>" target="_blank"><img src="/<%= image %>" /></a>
+                        <span><%= image %></span>
+                        <input type="checkbox" name="images" value="<%= image %>" /> 
+                    </li>
+                <% }) %>
+                <li class="clearL">&nbsp;</li>
+            </ul>
+        <% } else { %>
+            <p>no images available.</p>
+        <% } %>
+    </form>
+    <% if (pagination.max != 0) { %>
+        <div class="pagination">
+            <% if (1 != pagination.current) { %>
+                <a href="/page/<%= pagination.current - 1 %>" class="control">«</a>&nbsp;
+            <%}%>
+            <% for (var i = pagination.from; i <= pagination.to; i++) { %>
+                <% if (i == pagination.current) { %>
+                    <span class="control currentPage"><%= i %></span>
+                <% } else { %>
+                    <a href="/page/<%= i %>"  class="control"><%= i %></a>&nbsp;
+                <% } %>
+            <% } %>
+            <% if (true != pagination.last) { %>
+                <a href="/page/<%= ++pagination.current %>" class="control">»</a>
+            <%}%>
+        </div>
+    <%}%>
+    <a href="/logout/" class="logout control foot">Logout</a>
+<%- include('footer') %> 
