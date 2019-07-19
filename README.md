@@ -5,7 +5,7 @@ Camera trap with less administration effort optimized for pragmatic home surveil
 
 Buzzwords: security cam application, webcam viewer, camera trap, motion, node.js, express
 
-## Freatures:
+## Features:
 - lightweight: live stream view + motion detection on / off + image overview & detail view + download / delete selected images
 - optimized: for less administration effort & for mobile use / low bandwith, ships with predefined motion detection configuration
 - secure: brute force protected login, ddos protected application, SSL support, runs with less permissions
