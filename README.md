@@ -5,7 +5,9 @@ Camera trap with less administration effort optimized for pragmatic home surveil
 
 Buzzwords: security cam application, webcam viewer, camera trap, motion, node.js, express
 
-## Features:
+[https://github.com/loadenmb/motion_cam_viewer](https://github.com/loadenmb/motion_cam_viewer)
+
+## Features
 - lightweight: live stream view + motion detection on / off + image overview & detail view + download / delete selected images
 - optimized: for less administration effort & for mobile use / low bandwith, ships with predefined motion detection configuration
 - secure: brute force protected login, ddos protected application, SSL support, runs with less permissions
@@ -88,7 +90,7 @@ cd /usr/local/src/motion_cam_viewer/
 ```
 
 ### Change SSL certificate
-```
+```shell
 # ...be root..., go to dir
 cd /usr/local/src/motion_cam_viewer/
 
@@ -100,7 +102,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 3650
 sed -i "s|\"ssl_privateKeyPath\": \".*\"|\"ssl_privateKeyPath\": \"/usr/local/src/motion_cam_viewer/key.pem\"|" "./config.json"
 sed -i "s|\"ssl_certificatePath\": \".*\"|\"ssl_certificatePath\": \"/usr/local/src/motion_cam_viewer/cert.pem\"|" "./config.json"
 ```
-## Roadmap / TODO (feel free to work on)
+## Roadmap / TODO / ideas (feel free to work on)
 - maybe add sorted file cache for image manager, add max images read from dir (feel little slow down with many images detected) see: ./models/imageManager.js
 - secret + hash based login (for login with "mobile alert" app on click without typing creditals)
 - TCP server to hold connection and send "movement" notification of cam to mobile phone which has "mobile alert" app installed
@@ -117,6 +119,12 @@ sed -i "s|\"ssl_certificatePath\": \".*\"|\"ssl_certificatePath\": \"/usr/local/
 - maybe add optional general / full motion configuration user interface support (check required permissions / webcontrol)
 - add log viewer for web interface
 - multi language support (choose a great node.js multi language lib)
+
+## Contribute
+
+Discuss features, report issues, questions -> [here](https://github.com/loadenmb/motion_cam_viewer/issues).
+
+Developer -> fork & pull ;)
 
 ## Related
 - [motioneye:](https://github.com/ccrisan/motioneye/) which ships with his own Linux [motioneyeos](https://github.com/ccrisan/motioneyeos) mature large Python based motion webinterface with many configuration options

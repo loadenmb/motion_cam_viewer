@@ -22,7 +22,16 @@ function setup {
             echo "try: apt-get install motion"
             exit 1
         fi
-    fi 
+    fi
+    
+    # get current script path, resolve $SOURCE until the file is no longer a symlink
+    SOURCE=${BASH_SOURCE[0]}
+    while [ -h "$SOURCE" ]; do
+        DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    done
+    CURRENT_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
     
     # ask for SSL setup
     SSLSETUP=""
@@ -44,21 +53,12 @@ function setup {
         fi
         
         # generate strong certificate, 10 years valid (-days 3650) 
-        openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 3650
+        openssl req -x509 -newkey rsa:4096 -keyout ${CURRENT_DIR}/key.pem -out ${CURRENT_DIR}/cert.pem -days 3650
         
         # set certificate and private key in motion cam viewer config
         sed -i "s|\"ssl_privateKeyPath\": \".*|\"ssl_privateKeyPath\": \"${CURRENT_DIR}/key.pem\",|" "${CURRENT_DIR}/config.json"
         sed -i "s|\"ssl_certificatePath\": \".*|\"ssl_certificatePath\": \"${CURRENT_DIR}/cert.pem\",|" "${CURRENT_DIR}/config.json"
     fi
-
-    # get current script path, resolve $SOURCE until the file is no longer a symlink
-    SOURCE=${BASH_SOURCE[0]}
-    while [ -h "$SOURCE" ]; do
-        DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
-        SOURCE="$(readlink "$SOURCE")"
-        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-    done
-    CURRENT_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
 
     # create unix user for service 
     useradd -r motioncamviewer
