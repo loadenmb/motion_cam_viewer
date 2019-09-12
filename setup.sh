@@ -33,6 +33,9 @@ function setup {
     done
     CURRENT_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
     
+    # copy config template
+    cp "${CURRENT_DIR}/config-sample.json" "${CURRENT_DIR}/config.json"
+    
     # ask for SSL setup
     SSLSETUP=""
     while [ "$SSLSETUP" != "y" -a "$SSLSETUP" != "n" ]; do
@@ -84,7 +87,7 @@ function setup {
     PASSWORD=$(./set_password.sh);
         
     # ask for network interface, set local as default if empty
-    echo "Which IP should be listened? (localhost: 127.0.0.1, local: 192.168.1.3 (use your local network IP), all IPs: 0.0.0.0)"
+    echo "Which IP should be listened? (localhost: 127.0.0.1, local: (use your local network IP), all IPs: 0.0.0.0)"
     read -p "enter your listening IP (leave empty for default: local network IP): " LISTENIP
     sed -i "s|\"networkInterface\": \".*|\"networkInterface\": \"${LISTENIP}\",|" "${CURRENT_DIR}/config.json"
     
@@ -144,7 +147,6 @@ function setup {
     echo "/home/motion/"
     echo "${CURRENT_DIR}/config.json"
     echo "---"
-    echo "NOTICE: SSL setup need to be done manually. add absolute paths to: ./config.json : ssl_privateKeyPath, ssl_certificatePath"
     echo "motion cam viewer setup complete"
 }
 
