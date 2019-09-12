@@ -26,7 +26,7 @@
         <% if (images.length > 0 || streamUri.length > 0) { %>
             <ul id="images">
                 <% if (streamUri.length > 0) { %>
-                    <li><img id="stream" src="/stream/" /></li>
+                    <li><img id="stream" src="/stream/" /><a href="/snapshot/" id="snapshot">[ O ] snapshot</a></li>
                 <% } %>
                 <% images.forEach(function(image) {  %>
                     <li>			   		

@@ -8,7 +8,10 @@ Buzzwords: security cam application, webcam viewer, camera trap, motion, node.js
 [https://github.com/loadenmb/motion_cam_viewer](https://github.com/loadenmb/motion_cam_viewer)
 
 ## Features
-- lightweight: live stream view + motion detection on / off + image overview & detail view + download / delete selected images
+- lightweight: 
+    - live stream view + image overview & detail view
+    - snapshot + motion detection control
+    - image management: download / delete selected images
 - optimized: for less administration effort & for mobile use / low bandwith, ships with predefined motion detection configuration
 - secure: brute force protected login, ddos protected application, SSL support, runs with less permissions
 - integrated: systemd autostart and installer for Raspbian / Debian available
@@ -33,10 +36,11 @@ apt-get install -y motion nodejs
 - setup camera which supported by [motion](https://motion-project.github.io/)
 - [install newer node.js from pre build binary](https://nodejs.org/en/download/)
 ```shell
-# get binaries
+# get binaries local OR download direct at yourpi
 wget https://nodejs.org/dist/v10.16.0/node-v10.16.0-linux-armv6l.tar.xz
 
-# upload binaries to your pi, login, get root
+# skip this step if you download node.js archive direct at your Raspberry PI
+# upload binaries to your pi, login, get root, skip this step
 scp -P 21 -r node-v10.16.0-linux-armv6l.tar.xz pi@yourpi:/home/pi/
 ssh pi@yourpi
 su
@@ -69,11 +73,24 @@ Connect via HTTP on your configured IP address (try lan ip if you don't know) po
 
 If it doesn't work: 
 - motion cam viewer log file is: */var/log/motion_cam_viewer.log*
-- Also check output of: *systemctl status motion_cam_viewer*
+- Also check output of:
+```shell
+*systemctl status motion_cam_viewer*
+```
 
 ## Usage
 
 Open **http://YOUR.LAN.IP:8024** in your web browser and login. There's no futher explanation required.
+
+### Start / stop
+```shell
+systemctl (start|restart|stop) motion_cam_viewer
+```
+
+### Enable / disable auto start at boot
+```shell
+systemctl (enbale|disable) motion_cam_viewer
+```
 
 ### Change password
 ```shell
@@ -103,12 +120,11 @@ sed -i "s|\"ssl_privateKeyPath\": \".*\"|\"ssl_privateKeyPath\": \"/usr/local/sr
 sed -i "s|\"ssl_certificatePath\": \".*\"|\"ssl_certificatePath\": \"/usr/local/src/motion_cam_viewer/cert.pem\"|" "./config.json"
 ```
 ## Roadmap / TODO / ideas (feel free to work on)
-- maybe add sorted file cache for image manager, add max images read from dir (feel little slow down with many images detected) see: ./models/imageManager.js
+- maybe add sorted file cache for image manager, add max images read from dir (feel little slow down with many images > 10 000 detected) see: ./models/imageManager.js
 - secret + hash based login (for login with "mobile alert" app on click without typing creditals)
 - TCP server to hold connection and send "movement" notification of cam to mobile phone which has "mobile alert" app installed
 - multi camera support over network (manage all cams from single client or each single client)
 - add auto delete old images after time
-- add snapshot button
 - add camera on / off not only detection
 - add possibility to manage videos, record videos (just add file type :P) + motion config to record videos on detection (image capture at the moment only)
 - add device shutdown option (this will require shutdown permission which must be set on installation)
@@ -117,6 +133,7 @@ sed -i "s|\"ssl_certificatePath\": \".*\"|\"ssl_certificatePath\": \"/usr/local/
 - add more paranoid security: use motion MD5 based login for localhost connections
 - show thumbnails on overview page / resize images on creation to save bandwith
 - maybe add optional general / full motion configuration user interface support (check required permissions / webcontrol)
+- create npm package
 - add log viewer for web interface
 - multi language support (choose a great node.js multi language lib)
 

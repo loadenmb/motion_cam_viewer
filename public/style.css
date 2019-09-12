@@ -21,6 +21,10 @@ img {
     border: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 :focus {
     outline: none;
 }
@@ -99,6 +103,16 @@ select, button {
 
 #toggle {
     padding-left: 40px;
+}
+
+#snapshot {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    color: #fff;
+    background-color: #000;
+    opacity: 0.6;
+    padding: 2%;
 }
 
 .camError, .camDisabled, .camEnabled {

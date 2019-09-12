@@ -28,15 +28,7 @@ var log = function(msg) {
     if (config.log_enabled == true) {
         msg = new Date().toLocaleString() + ': ' + msg;
         if (config.log2File_enabled == true) {
-            logStream.write(msg + "\n");
-            /*
-            fs.appendFile(config.logFile, msg + "\n", function(err) {
-                if (err) {
-                    console.log(err);
-                    console.log(msg);   
-                }
-            }); 
-            */  
+            logStream.write(msg + "\n"); 
         } else {
             console.log(msg);
         }
@@ -270,11 +262,26 @@ app.get('/toggle/', requiresLogin, function(req, res) {
                 }
             }); 
         } else {
-            log('unknown answer of motion http control service');
+            log('unknown answer of motion http control service while toggle');
         }
         res.redirect('/');
     });    
 });
+
+// do snapshot
+app.get('/snapshot/', requiresLogin, function(req, res) {
+    httpClientRequest(config.motion_controlUri + '0/action/snapshot', httpOptionsControl, function(error, data) {
+        if (error) {
+            log(error.message);
+        }  
+        if (-1 != data.indexOf('Done')) {
+            
+        } else {
+            log('unknown answer of motion http control service while snapshot');   
+        }
+        res.redirect('/');
+    });
+}); 
 
 // force zip download
 var forceDownload = function(images, res) {
