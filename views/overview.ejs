@@ -6,8 +6,7 @@
                     <li><%= message %></li>
                 <% }) %>
             </ul>
-        <% } %>
-        
+        <% } %>        
         <a href="/logout/" class="logout control">Logout</a>
         <div class="controls">
             <a href="/toggle/" id="toggle" class="control"><% if (motion_state == true) { %><span class="camEnabled">&nbsp;</span>Disable detection<% } else if (motion_state === false) { %><span class="camDisabled">&nbsp;</span>Enable detection<% } else if (motion_state == null) { %><span class="camError">&nbsp;</span>Cam unreachable<%}%></a>
@@ -25,14 +24,24 @@
         </div>
         <% if (images.length > 0 || streamUri.length > 0) { %>
             <ul id="images">
-                <% if (streamUri.length > 0) { %>
-                    <li><img id="stream" src="/stream/" /><a href="/snapshot/" id="snapshot">[ O ] snapshot</a></li>
+                <% if (snapshot_no_stream == false && streamUri.length > 0) { %>
+                    <% if (motion_state !== null) { %>
+                        <li><img id="stream" src="/stream/" /><a href="/snapshot/" id="snapshot">[ O ] snapshot</a></li>
+                    <% } else { %>
+                        <li><img id="stream" src="/placeholder.jpg" /></li>
+                    <% } %>
                 <% } %>
-                <% images.forEach(function(image) {  %>
+                <% 
+                    var first = true;
+                    images.forEach(function(image) {  %>
                     <li>			   		
                         <a href="/<%= image %>" target="_blank"><img src="/<%= image %>" /></a>
                         <span><%= image %></span>
-                        <input type="checkbox" name="images" value="<%= image %>" /> 
+                        <% if (snapshot_no_stream == true && first == true) { first = false; %>
+                            <a href="/" id="snapshot">[ O ] snapshot</a>
+                        <% } else {  %>
+                            <input type="checkbox" name="images" value="<%= image %>" /> 
+                        <% } %>
                     </li>
                 <% }) %>
                 <li class="clearL">&nbsp;</li>

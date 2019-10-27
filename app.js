@@ -22,10 +22,8 @@ if (config.log_enabled == true) {
     process.on('exit', function () {
         log('close log file');	
         logStream.end();
-    });    
-}
-var log = function(msg) {
-    if (config.log_enabled == true) {
+    });
+    var log = function(msg) {
         msg = new Date().toLocaleString() + ': ' + msg;
         if (config.log2File_enabled == true) {
             logStream.write(msg + "\n"); 
@@ -33,6 +31,8 @@ var log = function(msg) {
             console.log(msg);
         }
     }
+} else {
+    var log = function(msg) {} 
 }
 
 // set http client request options
@@ -63,23 +63,37 @@ var getLocalIP = function() {
     }
     return '127.0.0.1';
 }
-
-// webserver
-var server = function() {
-    var upMesssage = function() {
-        log('listening on: [' + config.networkInterface + '] port: ' + server.address().port);
-    }      
-    if (config.ssl_privateKeyPath.length == 0 && config.ssl_certificatePath.length == 0) {
-        if (config.networkInterface.length == 0)
-            config.networkInterface = getLocalIP();     
-        var server = app.listen(config.port, config.networkInterface, upMesssage); 
-    } else {
-        if (config.networkInterface.length == 0)
-            config.networkInterface = getLocalIP();
-        var server = https.createServer({
+        
+// webserver, return a array which include all HTTP server we spawn
+var serve = function() {
+    var server = [];
+    
+    // set network interface to lan if empty
+    if (config.networkInterface.length == 0)
+        config.networkInterface = getLocalIP();   
+    
+    // HTTP
+    if (config.port != 0) {
+        server.push(app.listen(config.port, config.networkInterface, function() {
+            log('listening on: http://' + config.networkInterface + ':' + config.port);
+        }));   
+        
+        // use localhost network interface for tor if not listening to 127.0.0.1 already
+        if (config.tor_HiddenService_enabled == true && config.networkInterface != '127.0.0.1') {
+            server.push(app.listen(config.port, '127.0.0.1', function() {
+                log('listening on: http://' + '127.0.0.1' + ':' + config.port);
+            }));      
+        }
+    }
+    
+    // HTTPS / SSL
+    if (config.ssl_privateKeyPath.length != 0 && config.ssl_certificatePath.length != 0) {  
+        server.push(https.createServer({
             key: fs.readFileSync(config.ssl_privateKeyPath).toString(),
             cert: fs.readFileSync(config.ssl_certificatePath).toString()
-        }, app).listen(config.port, config.networkInterface, upMesssage); 
+        }, app).listen(config.ssl_port, config.networkInterface, function() {
+            log('listening on: https://' + config.networkInterface + ':' + config.ssl_port);
+        }));
     }
     return server;
 }
@@ -194,7 +208,8 @@ var overview = function(req, res) {
             motion_state: null,
             images: [],
             messages: [],
-            pagination: {}
+            pagination: {},
+            snapshot_no_stream: false
         };
         var page = 1;
         if (typeof req.params['page'] != 'undefined' && req.params['page'] != 0) {
@@ -204,8 +219,19 @@ var overview = function(req, res) {
             }
             page = parseInt(req.params['page']);
         }
+        
+        // set stream uri for page 1 (display stream)
         if (page == 1)
             templateData.streamUri = config.motion_videoStreamUri; 
+        
+        // set snapshot on overview open instead of video stream on hidden service if domain ends with .onion and option is set
+        var domainEnding = req.hostname.split('.');
+        var offset = domainEnding.length - 1;
+        if (offset > 0) {
+            domainEnding = domainEnding[domainEnding.length - 1];
+            if (config.tor_HiddenService_snapshot == true && domainEnding == "onion")
+                templateData.snapshot_no_stream = true;
+        }
         
         // get motion detection state
         httpClientRequest(config.motion_controlUri + '0/detection/status', httpOptionsControl, function(error, data) {
@@ -297,7 +323,7 @@ var forceDownload = function(images, res) {
     });    
 }
 
-// excute selected action
+// execute selected action
 app.post('/execute/', requiresLogin, function(req, res) { 
     if (typeof req.body['images'] == 'undefined' || typeof req.body['action'] == 'undefined' || typeof req.body['action'] != 'string') { 
         res.redirect('/');  
@@ -406,6 +432,6 @@ app.use(function(req, res) {
     res.render('error');
 });
 
-server();
+serve();
 
 

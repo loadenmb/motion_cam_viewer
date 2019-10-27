@@ -33,10 +33,3 @@ if (typeof process.argv[2] == 'undefined' ||  process.argv[2].length == 0) {
         process.exit(1);
     }
 }
-
-
-
-
-
-
-
