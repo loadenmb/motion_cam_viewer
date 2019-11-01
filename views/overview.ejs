@@ -6,7 +6,7 @@
                     <li><%= message %></li>
                 <% }) %>
             </ul>
-        <% } %>        
+        <% } %>  
         <a href="/logout/" class="logout control">Logout</a>
         <div class="controls">
             <a href="/toggle/" id="toggle" class="control"><% if (motion_state == true) { %><span class="camEnabled">&nbsp;</span>Disable detection<% } else if (motion_state === false) { %><span class="camDisabled">&nbsp;</span>Enable detection<% } else if (motion_state == null) { %><span class="camError">&nbsp;</span>Cam unreachable<%}%></a>
@@ -53,6 +53,9 @@
     <% if (pagination.max != 0) { %>
         <div class="pagination">
             <% if (1 != pagination.current) { %>
+                <% if (2 < pagination.current) { %> 
+                    <a href="/page/1 %>" class="control">|«</a>&nbsp;
+                <% } %>
                 <a href="/page/<%= pagination.current - 1 %>" class="control">«</a>&nbsp;
             <%}%>
             <% for (var i = pagination.from; i <= pagination.to; i++) { %>
@@ -62,8 +65,11 @@
                     <a href="/page/<%= i %>"  class="control"><%= i %></a>&nbsp;
                 <% } %>
             <% } %>
-            <% if (true != pagination.last) { %>
+            <% if (pagination.last != pagination.current) { %>
                 <a href="/page/<%= ++pagination.current %>" class="control">»</a>
+                <% if (pagination.last - 1 >= pagination.current) { %>
+                    <a href="/page/<%= pagination.last %>" class="control">»|</a>
+                <% } %>
             <%}%>
         </div>
     <%}%>

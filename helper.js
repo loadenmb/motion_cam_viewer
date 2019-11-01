@@ -50,16 +50,13 @@ module.exports = {
                 from = tmp;
             to = lastPageToDisplay;
         }
-        var last = false;
-        if (page == lastPageToDisplay)
-            last = true;
         return {
             display: display,
             max: maxResults,	
             current: page,
             from: from,
-            to: 	to,
-            last: last	
+            to: to,
+            last: lastPageToDisplay	
         };
     },    
     httpClientRequest: function(uri, options, callback) {      
